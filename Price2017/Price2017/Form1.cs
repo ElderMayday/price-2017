@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Price2017.Backend;
+
 namespace Price2017
 {
     public partial class Form1 : Form
@@ -15,6 +17,11 @@ namespace Price2017
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            TransactionContainer container = new TransactionContainer();
         }
     }
 }

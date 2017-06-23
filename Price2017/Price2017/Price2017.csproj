@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\ITransactionContainer.cs" />
     <Compile Include="Backend\Transaction.cs" />
     <Compile Include="Backend\TransactionContainer.cs" />
     <Compile Include="Form1.cs">
