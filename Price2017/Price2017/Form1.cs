@@ -134,14 +134,17 @@ namespace Price2017
             chartBuy.ChartAreas[0].AxisX.MajorGrid.Interval = 0.1;
 
             chartBuy.Series.Add("buy");
+            chartBuy.Series["buy"].LegendText = "Покупка";
             chartBuy.Series["buy"]["PixelPointWidth"] = "10";
             chartBuy.Series["buy"].Points.Clear();
 
             chartBuy.Series.Add("sell");
+            chartBuy.Series["sell"].LegendText = "Продажа";
             chartBuy.Series["sell"]["PixelPointWidth"] = "10";
             chartBuy.Series["sell"].Points.Clear();
 
             chartBuy.Series.Add("diff");
+            chartBuy.Series["diff"].LegendText = "Разница";
             chartBuy.Series["diff"]["PixelPointWidth"] = "10";
             chartBuy.Series["diff"].Points.Clear();
         }
