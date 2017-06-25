@@ -10,6 +10,7 @@ namespace Price2017.Backend
     {
         public TransactionContainer()
         {
+            modified = true;
             Clear();
         }
 

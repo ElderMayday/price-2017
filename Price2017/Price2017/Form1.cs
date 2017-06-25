@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Price2017.Backend;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Price2017
 {
@@ -56,7 +57,8 @@ namespace Price2017
 
         private void buttonClearAll_Click(object sender, EventArgs e)
         {
-            containerFactory = new ContainerFactory();
+            container = new TransactionContainer();
+            containerFactory = new ContainerFactory(); 
 
             updateComputation();
         }
@@ -64,6 +66,7 @@ namespace Price2017
         private void buttonClearSelected_Click(object sender, EventArgs e)
         {
             ContainerFactoryAbstract newContainerFactory = new ContainerFactory();
+            container = new TransactionContainer();
 
             foreach (string filePath in containerFactory.FilePaths)
                 if (!ListBoxFile.SelectedItems.Contains(filePath))
@@ -82,23 +85,65 @@ namespace Price2017
 
             var priceAmounts = container.PriceAmounts;
 
-            minPrice = priceAmounts.Keys.Min();
-            maxPrice = priceAmounts.Keys.Max();
+            if (priceAmounts.Count != 0)
+            {
+                minPrice = priceAmounts.Keys.Min();
+                maxPrice = priceAmounts.Keys.Max();
+            }
 
-
-            chartBuy.Series.Clear();
-
-            chartBuy.Series.Add("buy");
+            setChart();
+            
             foreach (var x in priceAmounts)
                 chartBuy.Series["buy"].Points.AddXY(x.Key, x.Value.Buy);
-
-            chartBuy.Series.Add("sell");
+            
             foreach (var x in priceAmounts)
                 chartBuy.Series["sell"].Points.AddXY(x.Key, -x.Value.Sell);
-
-            chartBuy.Series.Add("diff");
+            
             foreach (var x in priceAmounts)
                 chartBuy.Series["diff"].Points.AddXY(x.Key, x.Value.Difference);
+        }
+
+        protected void setChart()
+        {
+            chartBuy.Series.Clear();
+
+            var priceAmounts = container.PriceAmounts;
+
+            chartBuy.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chartBuy.ChartAreas[0].CursorX.IsUserEnabled = true;
+
+            chartBuy.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            chartBuy.ChartAreas[0].CursorY.IsUserEnabled = true;
+
+            chartBuy.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
+
+            chartBuy.ChartAreas[0].AxisX.LabelStyle.Format = "#.##";
+
+            chartBuy.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chartBuy.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSize = 0.01;
+            chartBuy.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 0.01;
+            chartBuy.ChartAreas[0].AxisX.ScaleView.MinSize = 0.01;
+
+            if (priceAmounts.Count != 0)
+            {
+                chartBuy.ChartAreas[0].AxisX.Minimum = priceAmounts.Keys.Min();
+                chartBuy.ChartAreas[0].AxisX.Maximum = priceAmounts.Keys.Max();
+            }
+
+            chartBuy.ChartAreas[0].AxisX.IsStartedFromZero = true;
+            chartBuy.ChartAreas[0].AxisX.MajorGrid.Interval = 0.1;
+
+            chartBuy.Series.Add("buy");
+            chartBuy.Series["buy"]["PixelPointWidth"] = "10";
+            chartBuy.Series["buy"].Points.Clear();
+
+            chartBuy.Series.Add("sell");
+            chartBuy.Series["sell"]["PixelPointWidth"] = "10";
+            chartBuy.Series["sell"].Points.Clear();
+
+            chartBuy.Series.Add("diff");
+            chartBuy.Series["diff"]["PixelPointWidth"] = "10";
+            chartBuy.Series["diff"].Points.Clear();
         }
     }
 }
