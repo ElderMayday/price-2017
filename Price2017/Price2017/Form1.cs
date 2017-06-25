@@ -25,6 +25,7 @@ namespace Price2017
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
         }
 
         private void updateListBoxFile()
@@ -83,6 +84,21 @@ namespace Price2017
 
             minPrice = priceAmounts.Keys.Min();
             maxPrice = priceAmounts.Keys.Max();
+
+
+            chartBuy.Series.Clear();
+
+            chartBuy.Series.Add("buy");
+            foreach (var x in priceAmounts)
+                chartBuy.Series["buy"].Points.AddXY(x.Key, x.Value.Buy);
+
+            chartBuy.Series.Add("sell");
+            foreach (var x in priceAmounts)
+                chartBuy.Series["sell"].Points.AddXY(x.Key, -x.Value.Sell);
+
+            chartBuy.Series.Add("diff");
+            foreach (var x in priceAmounts)
+                chartBuy.Series["diff"].Points.AddXY(x.Key, x.Value.Difference);
         }
     }
 }
