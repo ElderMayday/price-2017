@@ -13,8 +13,7 @@ namespace Price2017.Backend
 
         public TransactionContainer()
         {
-            transactions = new Dictionary<long, Transaction>();
-            names = new Dictionary<int, string>();
+            Clear();
         }
 
         public void AddTransaction(long id, DateTime time, string name, double price, double amount, bool isBuy)
@@ -32,6 +31,12 @@ namespace Price2017.Backend
                 nameId = pair.Key;
 
             transactions.Add(id, new Transaction(time, nameId, price, amount, isBuy));
+        }
+
+        public void Clear()
+        {
+            transactions = new Dictionary<long, Transaction>();
+            names = new Dictionary<int, string>();
         }
     }
 }

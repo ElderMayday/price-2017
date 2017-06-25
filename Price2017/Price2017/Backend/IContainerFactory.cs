@@ -1,4 +1,6 @@
-﻿namespace Price2017.Backend
+﻿using System.Collections.Generic;
+
+namespace Price2017.Backend
 {
     interface IContainerFactory
     {

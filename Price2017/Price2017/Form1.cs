@@ -24,9 +24,8 @@ namespace Price2017
             IContainerFactory containerFactory = new ContainerFactory();
             ITransactionContainer container = new TransactionContainer();
 
-            containerFactory.GetContainer(container, @"D:\price-2017\Price2017\Price2017\bin\Debug\gazprom230617.txt");
-
-
+            containerFactory.GetContainer(container, @"D:\price-2017\Price2017\Price2017\bin\Debug\1.txt");
+            containerFactory.GetContainer(container, @"D:\price-2017\Price2017\Price2017\bin\Debug\2.txt");
         }
     }
 }

@@ -8,20 +8,27 @@ namespace Price2017.Backend
 {
     class ContainerFactory : IContainerFactory
     {
-        public const int AttributeNumber = 16;
+        protected const int AttributeNumber = 16;
 
-        public HashSet<string> filePaths;
+        public List<string> FilePaths { get; protected set; }
+
+
 
         public ContainerFactory()
         {
-            filePaths = new HashSet<string>();
+            FilePaths = new List<string>();
         }
 
         public void GetContainer(ITransactionContainer container, string filePath)
         {
-            filePaths.Add(filePath);
+            if (!FilePaths.Contains(filePath))
+                FilePaths.Add(filePath);
+            else
+                throw new Exception("This file has already been loaded");
 
-            foreach (var currentPath in filePaths)
+            container.Clear();
+
+            foreach (var currentPath in FilePaths)
             {
                 var lines = File.ReadLines(currentPath);
 
