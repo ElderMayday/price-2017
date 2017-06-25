@@ -21,7 +21,12 @@ namespace Price2017
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            TransactionContainer container = new TransactionContainer();
+            IContainerFactory containerFactory = new ContainerFactory();
+            ITransactionContainer container = new TransactionContainer();
+
+            containerFactory.GetContainer(container, @"D:\price-2017\Price2017\Price2017\bin\Debug\gazprom230617.txt");
+
+
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Price2017.Backend
 {
     class TransactionContainer : ITransactionContainer
     {
-        public SortedDictionary<long, Transaction> transactions { get; protected set; }
+        public Dictionary<long, Transaction> transactions { get; protected set; }
         public Dictionary<int, string> names { get; protected set; }
 
         public TransactionContainer()
         {
-            transactions = new SortedDictionary<long, Transaction>();
+            transactions = new Dictionary<long, Transaction>();
             names = new Dictionary<int, string>();
         }
 
