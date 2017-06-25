@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\ContainerFactory.cs" />
-    <Compile Include="Backend\IContainerFactory.cs" />
+    <Compile Include="Backend\ContainerFactoryAbstract.cs" />
     <Compile Include="Backend\ITransactionContainer.cs" />
     <Compile Include="Backend\Transaction.cs" />
     <Compile Include="Backend\TransactionContainer.cs" />

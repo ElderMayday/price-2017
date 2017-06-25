@@ -6,20 +6,14 @@ using System.IO;
 
 namespace Price2017.Backend
 {
-    class ContainerFactory : IContainerFactory
+    class ContainerFactory : ContainerFactoryAbstract
     {
         protected const int AttributeNumber = 16;
 
-        public List<string> FilePaths { get; protected set; }
 
+        
 
-
-        public ContainerFactory()
-        {
-            FilePaths = new List<string>();
-        }
-
-        public void GetContainer(ITransactionContainer container, string filePath)
+        public override void GetContainer(ITransactionContainer container, string filePath)
         {
             if (!FilePaths.Contains(filePath))
                 FilePaths.Add(filePath);
