@@ -6,37 +6,51 @@ using System.Threading.Tasks;
 
 namespace Price2017.Backend
 {
-    class TransactionContainer : ITransactionContainer
+    class TransactionContainer : TransactionContainerAbstract
     {
-        public Dictionary<long, Transaction> transactions { get; protected set; }
-        public Dictionary<int, string> names { get; protected set; }
-
         public TransactionContainer()
         {
             Clear();
         }
 
-        public void AddTransaction(long id, DateTime time, string name, double price, double amount, bool isBuy)
+        public override void AddTransaction(long id, DateTime time, string name, double price, double amount, bool isBuy)
         {
-            var pair = names.FirstOrDefault(x => x.Value == name);
-
-            int nameId;
-
-            if (pair.Value == null)
+            if (!transactions.ContainsKey(id))
             {
-                nameId = names.Count + 1;
-                names.Add(nameId, name);
-            }
-            else
-                nameId = pair.Key;
+                modified = true;
 
-            transactions.Add(id, new Transaction(time, nameId, price, amount, isBuy));
+                var pair = names.FirstOrDefault(x => x.Value == name);
+
+                int nameId;
+
+                if (pair.Value == null)
+                {
+                    nameId = names.Count + 1;
+                    names.Add(nameId, name);
+                }
+                else
+                    nameId = pair.Key;
+
+                transactions.Add(id, new Transaction(time, nameId, price, amount, isBuy));
+            }
         }
 
-        public void Clear()
+        protected override void recomputePriceAmounts()
         {
-            transactions = new Dictionary<long, Transaction>();
-            names = new Dictionary<int, string>();
+            modified = false;
+
+            priceAmounts = new Dictionary<double, PriceAmount>();
+
+            foreach (var transaction in transactions)
+            {
+                if (!priceAmounts.ContainsKey(transaction.Value.Price))
+                    priceAmounts[transaction.Value.Price] = new PriceAmount(0.0, 0.0);
+
+                if (transaction.Value.IsBuy)
+                    priceAmounts[transaction.Value.Price].Buy += transaction.Value.Amount;
+                else
+                    priceAmounts[transaction.Value.Price].Sell += transaction.Value.Amount;
+            }
         }
     }
 }

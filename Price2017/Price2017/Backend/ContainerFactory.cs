@@ -13,7 +13,7 @@ namespace Price2017.Backend
 
         
 
-        public override void GetContainer(ITransactionContainer container, string filePath)
+        public override void GetContainer(TransactionContainerAbstract container, string filePath)
         {
             if (!FilePaths.Contains(filePath))
                 FilePaths.Add(filePath);

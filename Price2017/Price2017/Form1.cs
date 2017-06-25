@@ -15,7 +15,7 @@ namespace Price2017
     public partial class Form1 : Form
     {
         ContainerFactoryAbstract containerFactory = new ContainerFactory();
-        ITransactionContainer container = new TransactionContainer();
+        TransactionContainerAbstract container = new TransactionContainer();
 
 
         public Form1()
@@ -35,21 +35,21 @@ namespace Price2017
                 ListBoxFile.Items.Add(filePath);
         }
 
-        private void LabelLoadedFiles_Click(object sender, EventArgs e)
+        private void updateComputation()
         {
-
+            updateListBoxFile();
+            drawHistogram();
         }
+
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (var filePath in openFileDialog.FileNames)
-                {
                     containerFactory.GetContainer(container, filePath);
-                }
 
-                updateListBoxFile();
+                updateComputation();
             }
         }
 
@@ -57,7 +57,7 @@ namespace Price2017
         {
             containerFactory = new ContainerFactory();
 
-            updateListBoxFile();
+            updateComputation();
         }
 
         private void buttonClearSelected_Click(object sender, EventArgs e)
@@ -70,7 +70,19 @@ namespace Price2017
 
             containerFactory = newContainerFactory;
 
-            updateListBoxFile();
+            updateComputation();
+        }
+
+
+
+        private void drawHistogram()
+        {
+            double minPrice, maxPrice;
+
+            var priceAmounts = container.PriceAmounts;
+
+            minPrice = priceAmounts.Keys.Min();
+            maxPrice = priceAmounts.Keys.Max();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Price2017.Backend
     {
         public List<string> FilePaths { get; protected set; }
 
-        public abstract void GetContainer(ITransactionContainer container, string filePath);
+        public abstract void GetContainer(TransactionContainerAbstract container, string filePath);
 
 
 
