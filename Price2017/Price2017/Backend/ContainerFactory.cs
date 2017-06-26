@@ -36,8 +36,8 @@ namespace Price2017.Backend
                     container.AddTransaction(long.Parse(split[0]),
                         DateTime.ParseExact(split[1], "HH:mm:ss", CultureInfo.InvariantCulture),
                         split[4],
-                        double.Parse(split[5]),
-                        double.Parse(split[7]),
+                        double.Parse(split[5], CultureInfo.InvariantCulture),
+                        double.Parse(split[7], CultureInfo.InvariantCulture),
                         split[15] == "B" ? true : false);
                 }
             }

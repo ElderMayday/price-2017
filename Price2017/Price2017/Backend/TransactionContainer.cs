@@ -40,7 +40,7 @@ namespace Price2017.Backend
         {
             modified = false;
 
-            priceAmounts = new Dictionary<double, PriceAmount>();
+            priceAmounts = new SortedDictionary<double, PriceAmount>();
 
             foreach (var transaction in transactions)
             {

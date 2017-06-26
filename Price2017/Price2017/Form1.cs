@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using Price2017.Backend;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Globalization;
 
 namespace Price2017
 {
@@ -39,8 +40,11 @@ namespace Price2017
 
         private void updateComputation()
         {
+            this.Text = "Вычисляется";
             updateListBoxFile();
+            updateGrid();
             drawHistogram();
+            this.Text = "Price2017";
         }
 
 
@@ -78,6 +82,40 @@ namespace Price2017
         }
 
 
+        private void updateGrid()
+        {
+            var priceAmounts = container.PriceAmounts;
+
+            dataGrid.Rows.Clear();
+            dataGrid.Columns.Clear();
+
+            if (priceAmounts.Count > 0)
+            {
+                dataGrid.RowCount = 3;
+                dataGrid.ColumnCount = priceAmounts.Count;
+
+                dataGrid.Rows[0].HeaderCell.Value = "Покупка";
+                dataGrid.Rows[1].HeaderCell.Value = "Продажа";
+                dataGrid.Rows[2].HeaderCell.Value = "Разница";
+
+                dataGrid.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGrid.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGrid.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                int i = 0;
+                foreach (double price in priceAmounts.Keys)
+                {
+                    dataGrid.Columns[i].HeaderCell.Value = price.ToString();
+                    PriceAmount priceAmount = priceAmounts[price];
+
+                    dataGrid.Rows[0].Cells[i].Value = priceAmount.Buy.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.Rows[1].Cells[i].Value = priceAmount.Sell.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.Rows[2].Cells[i].Value = priceAmount.Difference.ToString("N", CultureInfo.InvariantCulture);
+
+                    i++;
+                }
+            }
+        }
 
         private void drawHistogram()
         {

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ListBoxFile = new System.Windows.Forms.ListBox();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonClearAll = new System.Windows.Forms.Button();
@@ -38,8 +38,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chartBuy = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.dataGrid = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBuy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // ListBoxFile
@@ -102,25 +104,38 @@
             // 
             // chartBuy
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartBuy.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartBuy.Legends.Add(legend1);
+            chartArea4.Name = "ChartArea1";
+            this.chartBuy.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartBuy.Legends.Add(legend4);
             this.chartBuy.Location = new System.Drawing.Point(1, 0);
             this.chartBuy.Name = "chartBuy";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartBuy.Series.Add(series1);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chartBuy.Series.Add(series4);
             this.chartBuy.Size = new System.Drawing.Size(1090, 452);
             this.chartBuy.TabIndex = 6;
             this.chartBuy.Text = "chart1";
+            // 
+            // dataGrid
+            // 
+            this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid.Location = new System.Drawing.Point(374, 458);
+            this.dataGrid.Name = "dataGrid";
+            this.dataGrid.ReadOnly = true;
+            this.dataGrid.RowHeadersWidth = 100;
+            this.dataGrid.Size = new System.Drawing.Size(711, 162);
+            this.dataGrid.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1097, 643);
+            this.Controls.Add(this.dataGrid);
             this.Controls.Add(this.chartBuy);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
@@ -128,6 +143,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartBuy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -141,6 +157,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartBuy;
+        private System.Windows.Forms.DataGridView dataGrid;
     }
 }
 

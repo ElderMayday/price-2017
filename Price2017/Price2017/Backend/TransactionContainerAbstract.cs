@@ -9,9 +9,9 @@ namespace Price2017.Backend
 
         protected Dictionary<int, string> names { get; set; }
 
-        protected Dictionary<double, PriceAmount> priceAmounts;
+        protected SortedDictionary<double, PriceAmount> priceAmounts;
 
-        public Dictionary<double, PriceAmount> PriceAmounts
+        public SortedDictionary<double, PriceAmount> PriceAmounts
         {
             get
             {
