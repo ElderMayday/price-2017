@@ -91,26 +91,26 @@ namespace Price2017
 
             if (priceAmounts.Count > 0)
             {
-                dataGrid.RowCount = 3;
-                dataGrid.ColumnCount = priceAmounts.Count;
+                dataGrid.ColumnCount = 3;
+                dataGrid.RowCount = priceAmounts.Count;
 
-                dataGrid.Rows[0].HeaderCell.Value = "Покупка";
-                dataGrid.Rows[1].HeaderCell.Value = "Продажа";
-                dataGrid.Rows[2].HeaderCell.Value = "Разница";
+                dataGrid.Columns[0].HeaderCell.Value = "Покупка";
+                dataGrid.Columns[1].HeaderCell.Value = "Продажа";
+                dataGrid.Columns[2].HeaderCell.Value = "Разница";
 
-                dataGrid.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dataGrid.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dataGrid.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
                 int i = 0;
                 foreach (double price in priceAmounts.Keys)
                 {
-                    dataGrid.Columns[i].HeaderCell.Value = price.ToString();
+                    dataGrid.Rows[i].HeaderCell.Value = price.ToString();
                     PriceAmount priceAmount = priceAmounts[price];
 
-                    dataGrid.Rows[0].Cells[i].Value = priceAmount.Buy.ToString("N", CultureInfo.InvariantCulture);
-                    dataGrid.Rows[1].Cells[i].Value = priceAmount.Sell.ToString("N", CultureInfo.InvariantCulture);
-                    dataGrid.Rows[2].Cells[i].Value = priceAmount.Difference.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.Rows[i].Cells[0].Value = priceAmount.Buy.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.Rows[i].Cells[1].Value = priceAmount.Sell.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.Rows[i].Cells[2].Value = priceAmount.Difference.ToString("N", CultureInfo.InvariantCulture);
 
                     i++;
                 }
@@ -185,6 +185,11 @@ namespace Price2017
             chartBuy.Series["diff"].LegendText = "Разница";
             chartBuy.Series["diff"]["PixelPointWidth"] = "10";
             chartBuy.Series["diff"].Points.Clear();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            chartBuy.ChartAreas[0].AxisX.ScaleView.Size = this.trackBar1.Value / 10.0;
         }
     }
 }
