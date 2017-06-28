@@ -11,6 +11,12 @@ namespace Price2017.Backend
 
         protected SortedDictionary<double, PriceAmount> priceAmounts;
 
+        public bool IsSingleType()
+        {
+            return names.Count == 1;
+        }
+
+
         public SortedDictionary<double, PriceAmount> PriceAmounts
         {
             get

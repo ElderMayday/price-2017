@@ -91,29 +91,73 @@ namespace Price2017
 
             if (priceAmounts.Count > 0)
             {
-                dataGrid.ColumnCount = 3;
-                dataGrid.RowCount = priceAmounts.Count;
-
-                dataGrid.Columns[0].HeaderCell.Value = "Покупка";
-                dataGrid.Columns[1].HeaderCell.Value = "Продажа";
-                dataGrid.Columns[2].HeaderCell.Value = "Разница";
-
-                dataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-
-                int i = 0;
-                foreach (double price in priceAmounts.Keys)
+                if (container.IsSingleType())
                 {
-                    dataGrid.Rows[i].HeaderCell.Value = price.ToString();
-                    PriceAmount priceAmount = priceAmounts[price];
 
-                    dataGrid.Rows[i].Cells[0].Value = priceAmount.Buy.ToString("N", CultureInfo.InvariantCulture);
-                    dataGrid.Rows[i].Cells[1].Value = priceAmount.Sell.ToString("N", CultureInfo.InvariantCulture);
-                    dataGrid.Rows[i].Cells[2].Value = priceAmount.Difference.ToString("N", CultureInfo.InvariantCulture);
+                    dataGrid.ColumnCount = 3;
 
-                    i++;
+                    int priceNumber = priceAmounts.Count;
+                    dataGrid.RowCount = priceNumber + 1;
+
+                    dataGrid.Columns[0].HeaderCell.Value = "Покупка";
+                    dataGrid.Columns[1].HeaderCell.Value = "Продажа";
+                    dataGrid.Columns[2].HeaderCell.Value = "Разница";
+
+                    dataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    dataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    dataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                    int i = 0;
+                    foreach (double price in priceAmounts.Keys)
+                    {
+                        dataGrid.Rows[priceNumber - i - 1].HeaderCell.Value = price.ToString();
+                        PriceAmount priceAmount = priceAmounts[price];
+
+                        var row = dataGrid.Rows[priceNumber - i - 1];
+
+                        row.Cells[0].Value = priceAmount.Buy.ToString("N0", CultureInfo.InvariantCulture);
+                        row.Cells[1].Value = priceAmount.Sell.ToString("N0", CultureInfo.InvariantCulture);
+                        row.Cells[2].Value = priceAmount.Difference.ToString("N0", CultureInfo.InvariantCulture);
+
+                        row.Cells[0].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                        row.Cells[0].Style.ForeColor = Color.Green;
+
+                        row.Cells[1].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                        row.Cells[1].Style.ForeColor = Color.Red;
+
+                        row.Cells[2].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                        if (priceAmount.Difference >= 0)
+                            row.Cells[2].Style.ForeColor = Color.Green;
+                        else
+                            row.Cells[2].Style.ForeColor = Color.Red;
+
+                        i++;
+                    }
+
+                    var totalRow = dataGrid.Rows[dataGrid.Rows.Count - 1];
+
+                    totalRow.HeaderCell.Value = "Всего:";
+
+                    totalRow.Cells[0].Value = priceAmounts.Sum(x => x.Value.Buy).ToString("N0", CultureInfo.InvariantCulture);
+                    totalRow.Cells[1].Value = priceAmounts.Sum(x => x.Value.Sell).ToString("N0", CultureInfo.InvariantCulture);
+
+                    double totalDiff = priceAmounts.Sum(x => x.Value.Difference);
+                    totalRow.Cells[2].Value = totalDiff.ToString("N0", CultureInfo.InvariantCulture);
+
+                    totalRow.Cells[0].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                    totalRow.Cells[0].Style.ForeColor = Color.Green;
+
+                    totalRow.Cells[1].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                    totalRow.Cells[1].Style.ForeColor = Color.Red;
+
+                    totalRow.Cells[2].Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+                    if (totalDiff >= 0)
+                        totalRow.Cells[2].Style.ForeColor = Color.Green;
+                    else
+                        totalRow.Cells[2].Style.ForeColor = Color.Red;
                 }
+                else
+                    MessageBox.Show("Были загружены данные о разных акциях", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -175,21 +219,37 @@ namespace Price2017
             chartBuy.Series["buy"].LegendText = "Покупка";
             chartBuy.Series["buy"]["PixelPointWidth"] = "10";
             chartBuy.Series["buy"].Points.Clear();
+            chartBuy.Series["buy"].Color = Color.Green;
 
             chartBuy.Series.Add("sell");
             chartBuy.Series["sell"].LegendText = "Продажа";
             chartBuy.Series["sell"]["PixelPointWidth"] = "10";
             chartBuy.Series["sell"].Points.Clear();
+            chartBuy.Series["sell"].Color = Color.Red;
 
             chartBuy.Series.Add("diff");
             chartBuy.Series["diff"].LegendText = "Разница";
             chartBuy.Series["diff"]["PixelPointWidth"] = "10";
             chartBuy.Series["diff"].Points.Clear();
+            chartBuy.Series["diff"].Color = Color.Blue;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             chartBuy.ChartAreas[0].AxisX.ScaleView.Size = this.trackBar1.Value / 10.0;
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            ContainerFactoryAbstract newContainerFactory = new ContainerFactory();
+            container = new TransactionContainer();
+
+            foreach (string filePath in containerFactory.FilePaths)
+                newContainerFactory.GetContainer(container, filePath);
+
+            containerFactory = newContainerFactory;
+
+            updateComputation();
         }
     }
 }
