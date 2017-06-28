@@ -40,9 +40,11 @@ namespace Price2017
 
         private void updateComputation()
         {
-            this.Text = "Вычисляется";
+            this.Text = "Обновляется список файлов";
             updateListBoxFile();
+            this.Text = "Строится таблица";
             updateGrid();
+            this.Text = "Строится гистограмма";
             drawHistogram();
             this.Text = "Price2017";
         }
@@ -115,6 +117,8 @@ namespace Price2017
 
                         var row = dataGrid.Rows[priceNumber - i - 1];
 
+                        row.HeaderCell.Style.Font = new Font(dataGrid.Font, FontStyle.Bold);
+
                         row.Cells[0].Value = priceAmount.Buy.ToString("N0", CultureInfo.InvariantCulture);
                         row.Cells[1].Value = priceAmount.Sell.ToString("N0", CultureInfo.InvariantCulture);
                         row.Cells[2].Value = priceAmount.Difference.ToString("N0", CultureInfo.InvariantCulture);
@@ -180,9 +184,6 @@ namespace Price2017
             
             foreach (var x in priceAmounts)
                 chartBuy.Series["sell"].Points.AddXY(x.Key, -x.Value.Sell);
-            
-            foreach (var x in priceAmounts)
-                chartBuy.Series["diff"].Points.AddXY(x.Key, x.Value.Difference);
         }
 
         protected void setChart()
@@ -226,12 +227,6 @@ namespace Price2017
             chartBuy.Series["sell"]["PixelPointWidth"] = "10";
             chartBuy.Series["sell"].Points.Clear();
             chartBuy.Series["sell"].Color = Color.Red;
-
-            chartBuy.Series.Add("diff");
-            chartBuy.Series["diff"].LegendText = "Разница";
-            chartBuy.Series["diff"]["PixelPointWidth"] = "10";
-            chartBuy.Series["diff"].Points.Clear();
-            chartBuy.Series["diff"].Color = Color.Blue;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
